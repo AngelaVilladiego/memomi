@@ -39,7 +39,7 @@ const TagDisplay = () => {
 
     }
 
-    return <div>
+    return <div className="font-sans">
             <div>
             {tags["setTags"].map((tagLabel, index) => (
                 <Tag key={tagLabel} onClick={unsetTag} tagLabel={tagLabel} isSet={tags["setTags"].indexOf(tagLabel) != -1} />

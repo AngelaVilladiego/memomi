@@ -10,12 +10,12 @@ const SummaryTable = () => {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen">
+        <div className="flex items-center justify-center h-screen font-sans">
             <table className={`top ${tableClasses}`}>
-                <th>Title</th>
-                <th>Date</th>
+                <th className="font-semibold">Title</th>
+                <th className="font-semibold">Date</th>
                 {memos["Titles"].map((Title, index) => (
-                    <tr className="hover:cursor-pointer hover:bg-memoyellow-100" onClick={redirect}>
+                    <tr className="hover:cursor-pointer hover:font-semibold hover:bg-memoyellow-100" onClick={redirect}>
                         <td>
                             {Title}
                         </td>
