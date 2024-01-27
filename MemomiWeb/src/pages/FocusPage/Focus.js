@@ -6,11 +6,16 @@ import Features from "../Features";
 import Contact from "../Contact";
 import NaviBar from "../../components/NaviBar/NaviBar";
 import Memo from "../../components/Memo/Memo";
+import TagDisplay from "../../components/TagDisplay";
 
 function Focus() {
+  const tags = ["#tag1", "tag2", "tag3"];
+  const suggestedTags = ["#suggestedtag1", "suggestedtag2", "suggestedtag3"];
+
   return (
+    //<Memo />
     <div className="height-svh">
-      <Memo />
+      <TagDisplay />
     </div>
     //     <div className="Focus">
     //       <div className="Focus-Title">
