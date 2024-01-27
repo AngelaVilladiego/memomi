@@ -1,0 +1,28 @@
+.myMemo {
+  background-image: url("../../../public/background_grid_yellow.png");
+  background-clip: border-box;
+  background-repeat: repeat;
+  position: relative;
+}
+
+.myMemo::before {
+  content: "";
+  transform: translate(10px, 10px);
+  position: absolute;
+  inset: 0;
+  border: inherit;
+  border-radius: inherit;
+  z-index: -1;
+  @apply bg-memoblue-50;
+}
+
+.myMemo::after {
+  content: "";
+  transform: translate(6px, 6px);
+  position: absolute;
+  inset: 0;
+  border: inherit;
+  border-radius: inherit;
+  z-index: -1;
+  @apply bg-memoblue-50;
+}
