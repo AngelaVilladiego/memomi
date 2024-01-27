@@ -7,6 +7,7 @@ import Contact from "../Contact";
 import NaviBar from "../../components/NaviBar/NaviBar";
 import Memo from "../../components/Memo/Memo";
 import TagDisplay from "../../components/TagDisplay";
+import SummaryTable from "../../components/SummaryTable/SummaryTable"
 
 function Focus() {
   const tags = ["#tag1", "tag2", "tag3"];
@@ -15,7 +16,7 @@ function Focus() {
   return (
     //<Memo />
     <div className="height-svh">
-      <TagDisplay />
+      <SummaryTable />
     </div>
     //     <div className="Focus">
     //       <div className="Focus-Title">
