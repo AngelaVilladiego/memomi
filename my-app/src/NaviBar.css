@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    src: url('https://fonts.googleapis.com/css?family=Poppins') format('truetype');
+}
+
+.NaviBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+  
+.NaviBar-links {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.NaviBar-link {
+    margin-right: 20px;
+    text-decoration: none;
+    font: 'Poppins';
+    color: #5069B1;
+    transition: color 0.3s ease;
+}
+
+.NaviBar-link:hover {
+    color: #192c65;
+}
+
+.Logo{
+    size: 40vmin;
+}
