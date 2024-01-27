@@ -41,7 +41,7 @@ def addLinksToExistingNotes():
             for i in linkIndexes:
                 linksToNotes.append({'linkIndexes':i, 'linkedMemoId':memo['id']})
 
-    h_updateMemo(currMemoId, "linksToNotes", linksToNotes)
+    h_updateMemo(currMemoId, "linksToMemos", linksToNotes)
 
 
     return linksToNotes
