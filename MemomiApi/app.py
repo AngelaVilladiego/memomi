@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from FindIndexesOfQuery import findIndexesOfQuery
-from ExtractTopicKeywords import getMemoSuggestionsList
+from ExtractTopicKeywords import getMemoSuggestionsList, removeExistingLinks
 from ApiHelpers import *
 import firebase_admin
 from firebase_admin import credentials
@@ -20,7 +20,7 @@ def hello_world():
     return "<p>Hello, World!</p>"
 
 @app.route("/addLinksToExistingMemos", methods=["POST"])
-def addLinksToExistingNotes():
+def addLinksToExistingMemos():
     reqData = request.json
     currMemoId = reqData.get('memoId')
     userId = reqData.get('userId')
@@ -67,9 +67,46 @@ def getUsers():
 def getNewMemoSuggestions():
     reqData = request.json
     memoId = reqData.get('memoId')
-    body = h_getMemoById(memoId).get('body')
+    memo = h_getMemoById(memoId)
+    body = memo.get("body")
     memoSuggestionsList = getMemoSuggestionsList(body)
-    h_updateMemo(memoId, "newMemoSuggestions", memoSuggestionsList)
+    linksToMemos = memo.get("linksToMemos")
+    cleanMemoSuggestionsList = removeExistingLinks(memoSuggestionsList, linksToMemos)
+    #check if list contains indexes in range of already existing notes, if so remove it
+    h_updateMemo(memoId, "newMemoSuggestions", cleanMemoSuggestionsList)
 
     return memoSuggestionsList
 
+@app.route("/realizeSuggestion", methods=["POST"])
+def realizeSuggestion():
+    reqData = request.json
+    userId = reqData.get('userId')
+    sourceMemoId = reqData.get('memoId')
+    realizeTitle = reqData.get('suggestedTitle')
+
+    user = h_getUserById(userId)
+    sourceMemo = h_getMemoById(sourceMemoId)
+    suggestions = sourceMemo.get("newMemoSuggestions")
+    linksToMemos = sourceMemo.get("linksToMemos")
+    
+    suggestionsToRealize = [sug for sug in suggestions if sug['suggestedTitle'] == realizeTitle]
+
+    cleanedSuggestions = [sug for sug in suggestions if sug['suggestedTitle'] != realizeTitle]
+
+    newMemoId = h_getNewMemoId()
+    memoIds = user.get("memoIds")
+    memoIds.append(newMemoId)
+    h_updateUser(userId, "memoIds", memoIds)
+    h_updateMemo(newMemoId, "title", realizeTitle)
+
+    for sug in suggestionsToRealize:
+        newLink = {"linkIndexes": sug["suggestionIndexes"], "linkedMemoId": newMemoId}
+        linksToMemos.append(newLink)
+
+    h_updateMemo(sourceMemoId, "linksToMemos", linksToMemos)
+    h_updateMemo(sourceMemoId, "newMemoSuggestions", cleanedSuggestions)
+
+    return {"newMemoId":newMemoId, "newMemoSuggestions":cleanedSuggestions, "linksToMemos": linksToMemos}
+
+    # update memoId to add indexes and the id of the newly created memo
+    # return modified suggestions list and modified links list
