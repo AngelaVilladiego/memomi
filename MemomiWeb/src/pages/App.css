@@ -1,80 +1,82 @@
 @font-face {
-  font-family: 'Poppins';
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
-  src: url('https://fonts.googleapis.com/css?family=Poppins') format('truetype');
+  src: url("https://fonts.googleapis.com/css?family=Poppins") format("truetype");
 }
 
 @font-face {
-  font-family: 'Rock Salt';
+  font-family: "Rock Salt";
   font-style: normal;
   font-weight: 400;
-  src: url('https://fonts.googleapis.com/css?family=Rock Salt') format('truetype');
+  src: url("https://fonts.googleapis.com/css?family=Rock Salt")
+    format("truetype");
 }
 
 .App {
   text-align: center;
-  display:flex;
+  display: flex;
   flex-direction: column;
-  background-image: "../public/Background-memo.png";
+  background-image: url("../../public/Background.png");
 }
 
-.Desktop-tabs{
+.Desktop-tabs {
   position: absolute;
   top: 0px;
 }
 
-.Desktop-memo{
-  position:absolute;
-  Left:5%;
-  Right:45%;
-  Top:0;
-  background-image: "../public/MemoPad.png";
-  background-size: cover; 
+.Desktop-memo {
+  position: absolute;
+  left: 5%;
+  right: 45%;
+  top: 0;
+  background-image: url("../../public/MemoPad.png");
+  background-size: cover;
   width: 100vw;
   height: 100vh;
 }
 
-.Desktop-memo h2{
+.Desktop-memo h2 {
   text-align: center;
-  font:Poppons;
+  font: Poppons;
   font-size: calc(35px+4vmin);
   font-style: bold;
 }
 
-.Desktop-memo h3{
+.Desktop-memo h3 {
   text-align: center;
-  font:Poppons;
+  font: Poppons;
   font-size: calc(10px+2vmin);
 }
 
-.Desktop-memo div{
+.Desktop-memo div {
   display: flexbox;
   align-items: baseline;
   justify-content: space-evenly;
 }
 
-.Desktop-memo div div p .type{
+.Desktop-memo div div p .type {
   text-align: center;
-  font:Poppons;
+  font: Poppons;
   font-size: calc(10px+2vmin);
 }
 
-.Desktop-memo div div p{
+.Desktop-memo div div p {
   text-align: center;
-  font:Poppons;
+  font: Poppons;
   font-size: calc(35px+4vmin);
   font-style: bold;
 }
 
-.MemosAll{
-  width:90%;
+.MemosAll {
+  width: 90%;
   align-self: center;
-  border-collapse:collapse;
+  border-collapse: collapse;
 }
 
-.MemosAll tr, .MemosAll tr td{
-  border: 1px solid #5069B1; /* Add your desired border style */
+.MemosAll tr,
+.MemosAll tr td {
+  border: 1px solid #5069b1; /* Add your desired border style */
   background-color: #ffdb7f7e;
   padding: 8px;
   text-align: left;
@@ -90,20 +92,20 @@
   border-right: none;
 }
 
-.MemosAll tr:first-child{
-  background-color:#FFDA7F;
+.MemosAll tr:first-child {
+  background-color: #ffda7f;
 }
 
 .Focus-memo {
-  width: calc(500px+5vmin); 
-  height: calc(700+5vmin); 
-  border-radius: 20px; 
-  overflow: hidden; 
-  border-color: #5069B1;
+  width: calc(500px+5vmin);
+  height: calc(700+5vmin);
+  border-radius: 20px;
+  overflow: hidden;
+  border-color: #5069b1;
   background-color: white;
-  background-image: url('../public/Asset_1.png'); 
-  background-size: cover; 
-  background-position: center; 
+  background-image: url("../../public/Asset_1.png");
+  background-size: cover;
+  background-position: center;
   position: relative;
 }
 
