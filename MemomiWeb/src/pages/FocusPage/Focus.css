@@ -1,0 +1,57 @@
+.Focus{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.AI-Suggestions {
+    display: none; 
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+#AIbutton {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+.Focus-Title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.Focus-Title div{
+    padding: 10%;
+}
+
+.Focus-Title div h2{
+    width: 50vmin;
+}
+
+.content{
+    border: none;
+    size:0.8vmax;
+    left:10%;
+    right:10%;
+    margin-top:5%;
+
+}
+
+.date{
+    display: flex;
+    flex-direction: row;
+}
+
+.date-info{
+    margin-left:3%;
+    border: none;
+}
