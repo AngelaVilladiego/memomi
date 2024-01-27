@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from FindIndexesOfQuery import findIndexesOfQuery
+from ExtractTopicKeywords import getMemoSuggestionsList
 from ApiHelpers import *
 import firebase_admin
 from firebase_admin import credentials
@@ -18,7 +19,7 @@ app = Flask(__name__)
 def hello_world():
     return "<p>Hello, World!</p>"
 
-@app.route("/memos/addLinksToExistingMemos", methods=["POST"])
+@app.route("/addLinksToExistingMemos", methods=["POST"])
 def addLinksToExistingNotes():
     reqData = request.json
     currMemoId = reqData.get('memoId')
@@ -61,3 +62,12 @@ def getUsers():
         response['users'].append(userDict)
 
     return response
+
+@app.route("/getNewMemoSuggestions", methods=["GET"])
+def getNewMemoSuggestions():
+    memoId = request.args.get('memoId')
+    body = h_getMemoById(memoId).get('body')
+    memoSuggestionsList = getMemoSuggestionsList(body)
+    h_updateMemo(memoId, "newMemoSuggestions", memoSuggestionsList)
+
+    return memoSuggestionsList
