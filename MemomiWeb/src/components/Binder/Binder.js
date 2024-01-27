@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './memo.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import "./Binder.css";
 
-const TabNavi = () => {
+const Binder = () => {
   return (
     <nav>
       <ul>
@@ -26,4 +26,4 @@ const TabNavi = () => {
   );
 };
 
-export default memo;
+export default Binder;
