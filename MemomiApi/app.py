@@ -63,11 +63,13 @@ def getUsers():
 
     return response
 
-@app.route("/getNewMemoSuggestions", methods=["GET"])
+@app.route("/getNewMemoSuggestions", methods=["POST"])
 def getNewMemoSuggestions():
-    memoId = request.args.get('memoId')
+    reqData = request.json
+    memoId = reqData.get('memoId')
     body = h_getMemoById(memoId).get('body')
     memoSuggestionsList = getMemoSuggestionsList(body)
     h_updateMemo(memoId, "newMemoSuggestions", memoSuggestionsList)
 
     return memoSuggestionsList
+
