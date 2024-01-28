@@ -6,12 +6,15 @@ import Features from "../Features";
 import Contact from "../Contact";
 import NaviBar from "../../components/NaviBar/NaviBar";
 import Memo from "../../components/Memo/Memo";
+import LoginButton from "../../components/LoginButton/LoginButton"
 
 function Focus() {
   return (
     <div className="h-svh flex flex-col items-center p-8">
       <Memo />
+      <LoginButton /> 
     </div>
+    
     //     <div className="Focus">
     //       <div className="Focus-Title">
     //         <div>
