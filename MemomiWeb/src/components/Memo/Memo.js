@@ -49,6 +49,11 @@ const Memo = () => {
   }, []);
 
   const handleSave = () => {
+    setState({
+      ...state,
+      lastSavedBody: { ...state.memo.body },
+      canSave: false,
+    });
     console.log("saving");
   };
   const handlePrevious = () => {
@@ -65,15 +70,12 @@ const Memo = () => {
         ...state.memo,
         body: e,
       },
+      canSave: { ...state.lastSavedBody } != e,
     });
   };
 
   const onClickLink = (linkId) => {
-    setState({
-      ...state,
-      isLoading: true,
-    });
-    GetMemo(linkId).then((data) => {
+    GetMemo(linkId, GLOBALS.TEST_USER_ID).then((data) => {
       if (data !== -4) {
         setState({
           ...state,
@@ -123,6 +125,7 @@ const Memo = () => {
       ) : (
         <>
           <MemoHeader
+            isEditable={state.isEditable}
             onEdit={handleEdit}
             onDelete={() => console.log("clickedDelete")}
             iconName="save"
@@ -145,6 +148,7 @@ const Memo = () => {
             className="bg-none font-handwriting text-sm text-memoneutral-800 overflow-y-scroll grow my-4"
             content={state.memo["body"]}
             onSetContent={(e) => onSetContent(e)}
+            onClickLink={(link) => onClickLink(link)}
           />
           <MemoFooter
             onPrevious={handlePrevious}

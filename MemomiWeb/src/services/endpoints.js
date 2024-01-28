@@ -57,9 +57,9 @@ export const GetUserMemoIds = async (userId) => {
   return res;
 };
 
-export const GetMemo = async (memoId) => {
+export const GetMemo = async (memoId, userId) => {
   let url = new URL(`${g.BASE_URL + g.GET_MEMO}`);
-  url.search = new URLSearchParams({ memoId: memoId });
+  url.search = new URLSearchParams({ memoId: memoId, userId: userId });
   let res = fetch(url, {
     method: "GET",
     headers: {
