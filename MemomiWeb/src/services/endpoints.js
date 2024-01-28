@@ -1,5 +1,29 @@
 import { GLOBALS as g } from "../globals";
 
+export const RealizeSuggestion = async (userId, memoId, suggestedTitle) => {
+  let reqBody = JSON.stringify({
+    userId: userId,
+    memoId: memoId,
+    suggestedTitle: suggestedTitle,
+  });
+
+  let res = fetch(`${g.BASE_URL + g.REALIZE_SUGGESTION}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: reqBody,
+  })
+    .then((r) => r.json())
+    .then((r) => {
+      console.log("Response", r);
+      return r;
+    })
+    .catch((error) => console.error("Error:", error));
+
+  return res;
+};
+
 export const GetNewMemoSuggestions = async (memoId) => {
   let reqBody = JSON.stringify({
     memoId: memoId,

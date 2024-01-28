@@ -15,6 +15,9 @@ db = firestore.client()
 def h_addLinksToExistingMemos(userId, currMemoId):
     otherMemos = []
     memoBody = h_getMemoById(currMemoId).get('body')
+    if len(memoBody) < 5:
+        return []
+    
     print("HERE")
     linksToNotes = []
 

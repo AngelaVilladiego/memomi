@@ -48,6 +48,7 @@ def getMemo():
     newBody = tagBody(memo["body"], links, suggs)
     memo["body"] = str(newBody)
     memo["id"] = memoId
+    print(memo)
     return memo
 
 
@@ -180,7 +181,9 @@ def realizeSuggestion():
     h_updateMemo(sourceMemoId, "linksToMemos", linksToMemos)
     h_updateMemo(sourceMemoId, "newMemoSuggestions", cleanedSuggestions)
 
-    return {"newMemoId":newMemoId, "newMemoSuggestions":cleanedSuggestions, "linksToMemos": linksToMemos}
+    taggedBody = tagBody(sourceMemo.get("body"), linksToMemos, cleanedSuggestions)
+    
+    return {"taggedBody": taggedBody, "memoId": newMemoId, "title": realizeTitle}
 
     # update memoId to add indexes and the id of the newly created memo
     # return modified suggestions list and modified links list

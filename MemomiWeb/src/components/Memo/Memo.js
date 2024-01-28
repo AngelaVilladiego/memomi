@@ -11,6 +11,7 @@ import {
   GetUserFirstMemo,
   GetUserMemoIds,
   GetNewMemoSuggestions,
+  RealizeSuggestion,
 } from "../../services/endpoints";
 import { GLOBALS } from "../../globals";
 import { formatDate } from "../../services/helpers";
@@ -82,6 +83,7 @@ const Memo = () => {
   };
 
   const onSetContent = (e) => {
+    console.log("Aaaa", state);
     setState({
       ...state,
       memo: {
@@ -93,8 +95,23 @@ const Memo = () => {
   };
 
   const onClickSuggest = (title) => {
-    //realize
-    console.log(title);
+    setState({
+      ...state,
+      isLoading: true,
+    });
+    RealizeSuggestion(GLOBALS.TEST_USER_ID, state.memo.id, title).then(
+      (data) => {
+        setState({
+          ...state,
+          memo: {
+            ...state.memo,
+            body: data["taggedBody"],
+            id: data["memoId"],
+          },
+          isLoading: false,
+        });
+      }
+    );
   };
 
   const onClickLink = (linkId) => {
@@ -162,7 +179,9 @@ const Memo = () => {
             </span>
           </div>
           <div className="text-memoblue-400 font-black font-sans text-2xl w-6/12">
-            <p className="text-wrap line-clamp-2">{state.memo["title"]}</p>
+            <p className="text-balance line-clamp-2 mt-auto">
+              {state.memo["title"]}
+            </p>
           </div>
           <div className="py-4 text-xs"></div>
           <TechretaryButton

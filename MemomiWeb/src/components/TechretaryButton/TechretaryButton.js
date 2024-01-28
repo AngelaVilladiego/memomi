@@ -43,7 +43,7 @@ const TechretaryButton = ({ onSuggestTags, onSuggestMemos }) => {
         {isExpanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
       </button>
       {isExpanded ? (
-        <div className="absolute ps-4">
+        <div className="absolute ps-4 z-10">
           <ul className="text-sm border-memoblue-400 border-[1px] rounded-lg overflow-clip bg-memoyellow-50">
             <span className="text-xs ps-2 text-neutral-500">
               Suggest some...
