@@ -4,21 +4,33 @@ import "./Memo.css";
 import DropdownButton from "../DropdownButton/DropdownButton";
 import MemoFooter from "./MemoFooter";
 import Editable from "../Editable/Editable";
+import sanitizeHtml from "sanitize-html";
 
 const Memo = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [memoBody, setMemoBody] = useState("");
+  const [canSave, setCanSave] = useState(false);
+  let lastSavedBody = demoText;
+
+  const removeTags = (tagged) => {
+    return sanitizeHtml(tagged, { allowedTags: [], allowedAttributes: {} });
+  };
 
   useEffect(() => {
     setMemoBody(demoText);
   }, []);
 
   useEffect(() => {
-    if (memoBody) {
+    console.log("efffect on memoy");
+    if (memoBody && isLoading) {
       setIsLoading(false);
     }
+    setCanSave(removeTags(memoBody) != lastSavedBody);
   }, [memoBody]);
 
+  useEffect(() => {
+    console.log("effect can save? ", canSave);
+  }, [canSave]);
   const handleSave = () => {
     console.log("saving");
   };
@@ -29,8 +41,8 @@ const Memo = () => {
     console.log("next");
   };
 
-  const onSetContent = (newContent) => {
-    console.log("setNewContent");
+  const onSetContent = (e) => {
+    setMemoBody(e);
   };
 
   return (
@@ -40,6 +52,7 @@ const Memo = () => {
         onDelete={() => console.log("clickedDelete")}
         iconName="save"
         onIconClick={handleSave}
+        canSave={canSave}
       />
       <div className="pt-4 w-5/12 ms-auto self-end border-b-2 border-memoblue-400 font-sans font-semibold text-xs text-memoblue-400">
         <span>Date</span>
@@ -55,7 +68,7 @@ const Memo = () => {
       <Editable
         className="bg-none font-handwriting text-sm text-memoneutral-800 overflow-y-scroll grow my-4"
         content={memoBody}
-        onSetContent={(newContent) => onSetContent(newContent)}
+        onSetContent={(e) => onSetContent(e)}
       />
       <MemoFooter
         onPrevious={handlePrevious}
@@ -70,4 +83,4 @@ const Memo = () => {
 export default Memo;
 
 let demoText =
-  'Subject: <span style="color:red;">Project Update Meeting</span> Summary\nDate: January 27, 2024\nParticipants:\n    Alex Thompson\n    Emily Rodriguez\n    Jason Miller\n    Sarah Anderson (Manager)\nMeeting Highlights:\n    Project Status:\n        Confirmed completion of Phase 1 milestones, including successful implementation of the user authentication module.\n        Discussed outstanding issues with the database optimization.\n    Upcoming Deadlines:\n        Set a revised deadline for finalizing the user interface redesign by February 5, 2024.\n        Agreed on a priority list for pending deliverables, with emphasis on the API integration due by February 15, 2024.\n    Challenges:\n        Addressed issues with server response time during peak hours.\n        Proposed solutions, with Jason assigned to conduct a performance analysis and provide recommendations by January 31, 2024.\n    Resource Allocation:\n        Identified the need for additional support in quality assurance testing.\n        Ensured Emily has access to the necessary testing environments and resources.\n    Client Communication:\n        Shared positive client feedback on the prototype\'s usability.\n        Discussed plans to enhance communication channels, including scheduling a client demo on February 10, 2024.\n    Action Items:\n        Emily Rodriguez: Finalize the user interface redesign by February 5, 2024.\n        Jason Miller: Conduct a performance analysis and provide recommendations by January 31, 2024.\n        Alex Thompson: Coordinate with the testing team to ensure comprehensive coverage for the upcoming API integration.\n    Next Meeting:\n        Scheduled the next project update meeting for February 3, 2024, at 10:00 AM.\n        Agreed to focus on reviewing the finalized user interface and addressing any outstanding issues with the database optimization.\nPlease review, and feel free to provide any additional details or clarifications.\nBest,\nAlex Thompson\nLead Developer';
+  "Subject: Project Update Meeting Summary\nDate: January 27, 2024\nParticipants:\n    Alex Thompson\n    Emily Rodriguez\n    Jason Miller\n    Sarah Anderson (Manager)\nMeeting Highlights:\n    Project Status:\n        Confirmed completion of Phase 1 milestones, including successful implementation of the user authentication module.\n        Discussed outstanding issues with the database optimization.\n    Upcoming Deadlines:\n        Set a revised deadline for finalizing the user interface redesign by February 5, 2024.\n        Agreed on a priority list for pending deliverables, with emphasis on the API integration due by February 15, 2024.\n    Challenges:\n        Addressed issues with server response time during peak hours.\n        Proposed solutions, with Jason assigned to conduct a performance analysis and provide recommendations by January 31, 2024.\n    Resource Allocation:\n        Identified the need for additional support in quality assurance testing.\n        Ensured Emily has access to the necessary testing environments and resources.\n    Client Communication:\n        Shared positive client feedback on the prototype's usability.\n        Discussed plans to enhance communication channels, including scheduling a client demo on February 10, 2024.\n    Action Items:\n        Emily Rodriguez: Finalize the user interface redesign by February 5, 2024.\n        Jason Miller: Conduct a performance analysis and provide recommendations by January 31, 2024.\n        Alex Thompson: Coordinate with the testing team to ensure comprehensive coverage for the upcoming API integration.\n    Next Meeting:\n        Scheduled the next project update meeting for February 3, 2024, at 10:00 AM.\n        Agreed to focus on reviewing the finalized user interface and addressing any outstanding issues with the database optimization.\nPlease review, and feel free to provide any additional details or clarifications.\nBest,\nAlex Thompson\nLead Developer";

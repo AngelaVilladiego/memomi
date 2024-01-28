@@ -9,13 +9,12 @@ const Editable = ({ content, className, onSetContent }) => {
   };
 
   const onContentChange = React.useCallback((evt) => {
-    onSetContent(sanitizeHtml(evt.currentTarget.innerHTML));
+    onSetContent(evt.currentTarget.innerHTML);
   }, []);
 
   return (
     <ContentEditable
       className={className}
-      onChange={onContentChange}
       onBlur={onContentChange}
       html={formatDisplay(content)}
     />

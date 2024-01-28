@@ -13,9 +13,18 @@ const getIconFromName = (iconName, iconProps) => {
   }
 };
 
-const CompactIconButton = ({ iconName, iconProps, onClick }) => {
+const CompactIconButton = ({ iconName, iconProps, onClick, disabled }) => {
+  console.log(disabled);
   const icon = getIconFromName(iconName, iconProps);
-  return <button onClick={onClick}>{icon}</button>;
+  return (
+    <button
+      disabled={disabled}
+      className="disabled:opacity-50 disabled:pointer-events-none"
+      onClick={onClick}
+    >
+      {icon}
+    </button>
+  );
 };
 
 export default CompactIconButton;
