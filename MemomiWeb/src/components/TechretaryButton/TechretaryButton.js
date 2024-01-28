@@ -23,7 +23,11 @@ const TechretaryButton = () => {
   };
 
   return (
-    <div onMouseOver={onMouseOver} onMouseOut={onMouseOut} className="relative">
+    <div
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
+      className="relative self-start"
+    >
       <button className="rounded-md border-memoblue-400 border-[1px] inline-flex items-center justify-center px-3 py-1 font-sans text-sm text-memoblue-400 gap-2 bg-memoyellow-50">
         <div>
           <img

@@ -2,7 +2,7 @@ import React from "react";
 import TextButton from "../TextButton/TextButton";
 import CompactIconButton from "../CompactIconButton/CompactIconButton";
 
-const MemoHeader = ({ onEdit, onDelete, iconName, onIconClick }) => {
+const MemoHeader = ({ onEdit, onDelete, iconName, onIconClick, canSave }) => {
   return (
     <div className="flex justify-between items-center text-memoblue-400">
       <span className="space-x-8">
@@ -10,6 +10,7 @@ const MemoHeader = ({ onEdit, onDelete, iconName, onIconClick }) => {
         <TextButton onClickButton={onDelete} textContent="Delete" />
       </span>
       <CompactIconButton
+        disabled={!canSave}
         onClick={onIconClick}
         iconName={iconName}
         iconProps={"size-6"}
