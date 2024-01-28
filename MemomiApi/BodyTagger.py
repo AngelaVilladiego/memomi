@@ -11,7 +11,7 @@ def tagBody(content, existingLinks, suggestionLinks):
     sortedLinks = sorted(existingLinks, key=lambda d: d["linkIndexes"]["startIdx"])
     offset = 0;
     for link in sortedLinks:
-        preTag = '<a href="#" class="color:red;">'
+        preTag = '<a href="#" class="linkToMemo">'
         postTag = "</a>"
         rawStartIdx = link["linkIndexes"]["startIdx"]
         rawEndIdx = link["linkIndexes"]["endIdx"]
@@ -32,8 +32,7 @@ def tagBody(content, existingLinks, suggestionLinks):
         offset += len(postTag)
         content = newContent
 
-    print(content)
-    return(content)
+    return(preWrap(content))
 
 
 
