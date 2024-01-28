@@ -92,6 +92,11 @@ const Memo = () => {
     });
   };
 
+  const onClickSuggest = (title) => {
+    //realize
+    console.log(title);
+  };
+
   const onClickLink = (linkId) => {
     GetMemo(linkId, GLOBALS.TEST_USER_ID).then((data) => {
       if (data !== -4) {
@@ -172,6 +177,7 @@ const Memo = () => {
             content={state.memo["body"]}
             onSetContent={(e) => onSetContent(e)}
             onClickLink={(link) => onClickLink(link)}
+            onClickSuggest={(title) => onClickSuggest(title)}
           />
           <MemoFooter
             onPrevious={handlePrevious}
