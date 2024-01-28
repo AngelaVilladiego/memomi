@@ -13,6 +13,7 @@ import Memopad from "./MemoPad.png"
 import Pile from "./pile.png"
 import TagDisplay from "../../components/TagDisplay";
 import SummaryTable from "../../components/SummaryTable/SummaryTable"
+import SearchBar from "./Search barsearchbar.png"
 
 function Focus() {
   const memos = {Titles:["Title1", "Title2", "Title3","Title1", "Title2", "Title3","Title1", "Title2", "Title3"], Dates:["Date1", "Date2", "Date3","Date1", "Date2", "Date3","Date1", "Date2", "Date3"]}
@@ -32,8 +33,11 @@ function Focus() {
       </div>
 
       <div className="mt-0 absolute top-5/12 rounded-lg w-5/6">
-        <img src={RightBinder} alt='RightBinder' className="absolute top-0"></img>
-        <img src={MiddleBinder} alt='MiddleBinder' className="absolute top-0"></img>
+        <div><img src={RightBinder} alt='RightBinder' className="absolute top-0"></img>
+        <p className="hover:cursor-pointer hover:font-semibold absolute top-10 right-110 font-sans text-memoblue-400">Inbox</p></div>
+        <div><img src={MiddleBinder} alt='MiddleBinder' className="absolute top-0"></img>
+        <p className="absolute top-10 right-252 font-sans font-semibold text-memoblue-400 hover:cursor-pointer hover:font-semibold">My Memos</p>
+        </div>
         <div className="absolute top-0 left-20 w-475">
           <img src={Memopad} alt='Memopad'></img>
           <div className="absolute top-200 left-47 w-375 h-500 flex flex-col items-center justift-start">
@@ -45,7 +49,7 @@ function Focus() {
             </p>
 
             <p className="font-sans text-center text-wrap text-memoblue-400 text-sm">
-            placeholder for search bar
+            <img src={SearchBar} alt='Searchbar'></img>
             </p>
             <div className="absolute top-0 mt-0 scroll-smooth focus:scroll-auto ">
               <SummaryTable memos={memos} className="absolute top-0"/>
@@ -53,9 +57,7 @@ function Focus() {
           </div>
         </div>
         <div className="absolute top-80 right-20 w-475">
-          <img src={Pile} alt='pile1'className="absolute top-5 right-0"></img>
-          <img src={Pile} alt='pile2' className="absolute top-2.5 right-2.5"></img>
-          <img src={Pile} alt='pile3' className="absolute top-0 right-5"></img>
+          <Memo />
         </div>
         <div className="absolute top-850 text-transparent">hahahahhahhaa</div>
       </div>
