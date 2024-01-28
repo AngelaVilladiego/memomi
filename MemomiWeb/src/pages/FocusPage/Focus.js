@@ -8,6 +8,9 @@ import NaviBar from "../../components/NaviBar/NaviBar";
 import Logo from "../../components/NaviBar/Logo.png";
 import Memo from "../../components/Memo/Memo";
 import LoginButton from "../../components/LoginButton/LoginButton"
+import RightBinder from "../../components/Binder/Binder"
+import Memopad from "../../components/Memo/Memo"
+
 
 function Focus() {
   const memos = {Titles:["Title1", "Title2", "Title3","Title1", "Title2", "Title3","Title1", "Title2", "Title3"], Dates:["Date1", "Date2", "Date3","Date1", "Date2", "Date3","Date1", "Date2", "Date3"]}

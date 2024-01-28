@@ -5,19 +5,20 @@ import App from "./pages/App";
 import reportWebVitals from "./services/reportWebVitals";
 import Focus from "./pages/FocusPage/Focus";
 import { Auth0Provider } from "@auth0/auth0-react";
+import About from "./pages/AboutPage/About"
+import { BrowserRouter } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
+import Auth0ProviderWithHistory from "./auth/auth0-provider-with-history";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Auth0Provider
-    domain="dev-cz8wroj02ik53vzv.us.auth0.com"
-    clientId="2JtJXSwm3Z1xmi5JUua0tZpY7MBmFzU6"
-    authorizationParams={{
-      redirect_uri: window.Location.origin
-    }}
-  >
+    <BrowserRouter>
+    <Auth0ProviderWithHistory
+  > 
+  </Auth0ProviderWithHistory>
   <Focus />
-  </Auth0Provider>
+    </BrowserRouter>
   </React.StrictMode>
   
 );
