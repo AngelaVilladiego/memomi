@@ -1,8 +1,7 @@
-@font-face {
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 400;
-    src: url('https://fonts.googleapis.com/css?family=Poppins') format('truetype');
+.NaviBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .NaviBar {
@@ -20,11 +19,10 @@
 }
 
 .NaviBar-link {
-    margin-right: 20px;
-    text-decoration: none;
-    font: 'Poppins';
-    color: #5069B1;
-    transition: color 0.3s ease;
+  margin: 0;
+  text-decoration: none;
+  color: #5069b1;
+  transition: color 0.3s ease;
 }
 
 .NaviBar-link:hover {

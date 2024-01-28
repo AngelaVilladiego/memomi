@@ -6,11 +6,21 @@ import Features from "../Features";
 import Contact from "../Contact";
 import NaviBar from "../../components/NaviBar/NaviBar";
 import Memo from "../../components/Memo/Memo";
+import LoginButton from "../../components/LoginButton/LoginButton"
+import SearchBar from "../../components/SearchBar/SearchBar"
 
 function Focus() {
   return (
-    <div className="height-svh">
-      <Memo />
+    <div className="h-svh flex flex-col items-center p-8">
+      <Router>
+        <NaviBar />
+        <Routes>
+          <Route path="/" exact component={Memo} />
+          <Route path="/about" component={About} />
+          <Route path="/features" component={Features} />
+          <Route path="/contact" component={Contact} />
+        </Routes>
+      </Router>
     </div>
     //     <div className="Focus">
     //       <div className="Focus-Title">
