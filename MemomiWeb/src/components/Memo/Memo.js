@@ -12,6 +12,7 @@ import {
 } from "../../services/endpoints";
 import { GLOBALS } from "../../globals";
 import { formatDate } from "../../services/helpers";
+import { tagBody } from "../../services/memoBodyTagger";
 
 const Memo = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -39,8 +40,6 @@ const Memo = () => {
   }, []);
 
   useEffect(() => {
-    console.log("efffect on memoy");
-    console.log(memo);
     if (memo && isLoading) {
       setTimeout(() => {
         lastSavedBody = memo["body"];
@@ -67,7 +66,7 @@ const Memo = () => {
     console.log("LETJAODIFJJ");
     setMemo((prev) => {
       let memo = { ...prev };
-      memo.body = removeTags(e);
+      memo.body = e;
       return memo;
     });
   };
@@ -139,6 +138,3 @@ const Memo = () => {
 };
 
 export default Memo;
-
-let demoText =
-  "Subject: Project Update Meeting Summary\nDate: January 27, 2024\nParticipants:\n    Alex Thompson\n    Emily Rodriguez\n    Jason Miller\n    Sarah Anderson (Manager)\nMeeting Highlights:\n    Project Status:\n        Confirmed completion of Phase 1 milestones, including successful implementation of the user authentication module.\n        Discussed outstanding issues with the database optimization.\n    Upcoming Deadlines:\n        Set a revised deadline for finalizing the user interface redesign by February 5, 2024.\n        Agreed on a priority list for pending deliverables, with emphasis on the API integration due by February 15, 2024.\n    Challenges:\n        Addressed issues with server response time during peak hours.\n        Proposed solutions, with Jason assigned to conduct a performance analysis and provide recommendations by January 31, 2024.\n    Resource Allocation:\n        Identified the need for additional support in quality assurance testing.\n        Ensured Emily has access to the necessary testing environments and resources.\n    Client Communication:\n        Shared positive client feedback on the prototype's usability.\n        Discussed plans to enhance communication channels, including scheduling a client demo on February 10, 2024.\n    Action Items:\n        Emily Rodriguez: Finalize the user interface redesign by February 5, 2024.\n        Jason Miller: Conduct a performance analysis and provide recommendations by January 31, 2024.\n        Alex Thompson: Coordinate with the testing team to ensure comprehensive coverage for the upcoming API integration.\n    Next Meeting:\n        Scheduled the next project update meeting for February 3, 2024, at 10:00 AM.\n        Agreed to focus on reviewing the finalized user interface and addressing any outstanding issues with the database optimization.\nPlease review, and feel free to provide any additional details or clarifications.\nBest,\nAlex Thompson\nLead Developer";

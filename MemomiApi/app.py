@@ -6,6 +6,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from flask_cors import CORS
+from BodyTagger import tagBody
 
 # Use a service account.
 if not firebase_admin._apps:
@@ -29,6 +30,7 @@ def getMemo():
     memoId = request.args.get("memoId")
     memo = h_getMemoById(memoId)
 
+
     return memo
 
 @app.route("/getUserFirstMemo", methods=["GET"])
@@ -43,9 +45,13 @@ def getUserFirstMemo():
         return {}
     
     memoId = memoIds[0]
-    memo = h_getMemoById(memoId)
+    memo = h_getMemoById(memoId).to_dict()
+
+    newBody = tagBody(memo["body"], memo["linksToMemos"], memo["newMemoSuggestions"])
+    memo["body"] = str(newBody)
+    print(memo)
     
-    return memo.to_dict()
+    return memo
 
 @app.route("/addLinksToExistingMemos", methods=["POST"])
 def addLinksToExistingMemos():
