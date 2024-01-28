@@ -47,6 +47,7 @@ def getMemo():
 
     newBody = tagBody(memo["body"], links, suggs)
     memo["body"] = str(newBody)
+    memo["id"] = memoId
     return memo
 
 
@@ -62,7 +63,9 @@ def getUserFirstMemo():
         return {}
     
     memoId = memoIds[0]
-    memo = h_getMemoById(memoId).to_dict()
+    memo = h_getMemoById(memoId)
+    memoId = memo.id
+    memo = memo.to_dict()
 
     links = []
     try:
@@ -77,6 +80,7 @@ def getUserFirstMemo():
 
     newBody = tagBody(memo["body"], links, suggs)
     memo["body"] = str(newBody)
+    memo["id"] = memoId
     return memo
 
 @app.route("/addLinksToExistingMemos", methods=["POST"])
@@ -134,12 +138,18 @@ def getNewMemoSuggestions():
     memo = h_getMemoById(memoId)
     body = memo.get("body")
     memoSuggestionsList = getMemoSuggestionsList(body)
-    linksToMemos = memo.get("linksToMemos")
+    try:
+        linksToMemos = memo.get("linksToMemos")
+    except KeyError:
+        linksToMemos = []
+
     cleanMemoSuggestionsList = removeExistingLinks(memoSuggestionsList, linksToMemos)
     #check if list contains indexes in range of already existing notes, if so remove it
     h_updateMemo(memoId, "newMemoSuggestions", cleanMemoSuggestionsList)
 
-    return memoSuggestionsList
+    taggedBody = tagBody(body, linksToMemos, memoSuggestionsList)
+
+    return {"taggedBody": taggedBody}
 
 @app.route("/realizeSuggestion", methods=["POST"])
 def realizeSuggestion():

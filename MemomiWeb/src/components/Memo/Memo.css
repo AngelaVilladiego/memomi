@@ -50,20 +50,9 @@
 }
 
 .linkToMemo {
-  @apply text-memoblue-400 hover:cursor-pointer border-b-[1px] border-memoblue-400 relative;
+  @apply border-dotted text-memoblue-400 hover:cursor-pointer border-b-2 border-memoblue-400 relative;
 }
 
-.linkToMemo::after {
-  position: absolute;
-  top: -5;
-  right: 5;
-  height: 0.1rem;
-  aspect-ratio: square;
-  background-color: red;
-}
-
-.iconLink {
-  background-image: url("../../assets/link.svg");
-  aspect-ratio: square;
-  height: 0.2rem;
+.suggest {
+  @apply bg-memoyellow-300 hover:cursor-pointer;
 }

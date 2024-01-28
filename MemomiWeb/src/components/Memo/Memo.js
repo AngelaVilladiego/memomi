@@ -10,6 +10,7 @@ import {
   GetUserMemos,
   GetUserFirstMemo,
   GetUserMemoIds,
+  GetNewMemoSuggestions,
 } from "../../services/endpoints";
 import { GLOBALS } from "../../globals";
 import { formatDate } from "../../services/helpers";
@@ -61,6 +62,23 @@ const Memo = () => {
   };
   const handleNext = () => {
     console.log("next");
+  };
+
+  const onSuggestMemos = () => {
+    setState({
+      ...state,
+      isLoading: true,
+    });
+    GetNewMemoSuggestions(state.memo.id).then((data) => {
+      setState({
+        ...state,
+        memo: {
+          ...state.memo,
+          body: data["taggedBody"],
+        },
+        isLoading: false,
+      });
+    });
   };
 
   const onSetContent = (e) => {
@@ -142,7 +160,12 @@ const Memo = () => {
             <p className="text-wrap line-clamp-2">{state.memo["title"]}</p>
           </div>
           <div className="py-4 text-xs"></div>
-          <TechretaryButton />
+          <TechretaryButton
+            onSuggestTags={() => {
+              console.log("tags wee");
+            }}
+            onSuggestMemos={onSuggestMemos}
+          />
           <Editable
             isEditable={state.isEditable}
             className="bg-none font-handwriting text-sm text-memoneutral-800 overflow-y-scroll grow my-4"

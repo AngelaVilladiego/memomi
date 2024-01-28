@@ -8,17 +8,6 @@ const Editable = ({
   isEditable,
   onClickLink,
 }) => {
-  const insertLink = (content) => {
-    var myHtmlString = content;
-    var htmlDom = new DOMParser().parseFromString(myHtmlString, "text/html");
-    htmlDom.body.querySelectorAll(".linkToMemo").forEach((iHtml) => {
-      if (iHtml.innerHtml == iHtml.innerText) {
-        iHtml.innerHTML = iHtml.innerText + '<i class="iconLink"></i>';
-      }
-    });
-    return content;
-  };
-
   const onContentBlur = React.useCallback((evt) => {
     onSetContent(evt.currentTarget.innerHTML);
   }, []);
@@ -36,13 +25,13 @@ const Editable = ({
       onBlur={onContentBlur}
       contentEditable
       className={className}
-      dangerouslySetInnerHTML={{ __html: insertLink(content) }}
+      dangerouslySetInnerHTML={{ __html: content }}
     ></div>
   ) : (
     <div
       onClick={clickHandler}
       className={className}
-      dangerouslySetInnerHTML={{ __html: insertLink(content) }}
+      dangerouslySetInnerHTML={{ __html: content }}
     ></div>
   );
 };
