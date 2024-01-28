@@ -59,10 +59,35 @@ const Memo = () => {
     console.log("saving");
   };
   const handlePrevious = () => {
-    console.log("previous");
+    var currId = state.memo.id;
+    var gotMemoIds = state.memoIds;
+    console.log("HWAHAHA", gotMemoIds);
+    var pos = gotMemoIds.findIndex((id) => id == currId);
+
+    var nextPos;
+
+    if (pos == 0) {
+      nextPos = gotMemoIds.length - 1;
+    } else {
+      nextPos = pos - 1;
+    }
+
+    onClickLink(gotMemoIds[nextPos]);
   };
   const handleNext = () => {
-    console.log("next");
+    var currId = state.memo.id;
+    var gotMemoIds = state.memoIds;
+    var pos = gotMemoIds.findIndex((id) => id == currId);
+
+    var nextPos;
+
+    if (pos == gotMemoIds.length - 1) {
+      nextPos = 0;
+    } else {
+      nextPos = pos + 1;
+    }
+
+    onClickLink(gotMemoIds[nextPos]);
   };
 
   const onSuggestMemos = () => {
@@ -83,15 +108,14 @@ const Memo = () => {
   };
 
   const onSetContent = (e) => {
-    console.log("Aaaa", state);
-    setState({
-      ...state,
-      memo: {
-        ...state.memo,
-        body: e,
-      },
-      canSave: { ...state.lastSavedBody } != e,
-    });
+    console.log("ASDFASDF", e);
+    let prevState = { ...state };
+    prevState.memo.body = e;
+    prevState.lastSavedBody = e;
+    prevState.canSave = prevState.lastSavedBody == prevState.memo.body;
+    let newS = prevState;
+    console.log("Aaaa", newS);
+    setState(newS);
   };
 
   const onClickSuggest = (title) => {
@@ -115,14 +139,13 @@ const Memo = () => {
   };
 
   const onClickLink = (linkId) => {
+    setState({ ...state, isLoading: true });
     GetMemo(linkId, GLOBALS.TEST_USER_ID).then((data) => {
-      if (data !== -4) {
-        setState({
-          ...state,
-          memo: data,
-          isLoading: false,
-        });
-      }
+      setState({
+        ...state,
+        memo: data,
+        isLoading: false,
+      });
     });
   };
 
@@ -178,12 +201,12 @@ const Memo = () => {
               {formatDate(new Date(state.memo["dateCreated"]))}
             </span>
           </div>
-          <div className="text-memoblue-400 font-black font-sans text-2xl w-6/12">
+          <div className="pt-2 flex flex-col items-start justify-end text-memoblue-400 font-black font-sans text-2xl w-8/12">
             <p className="text-balance line-clamp-2 mt-auto">
               {state.memo["title"]}
             </p>
           </div>
-          <div className="py-4 text-xs"></div>
+          <div className="pb-4 text-xs"></div>
           <TechretaryButton
             onSuggestTags={() => {
               console.log("tags wee");
@@ -201,7 +224,7 @@ const Memo = () => {
           <MemoFooter
             onPrevious={handlePrevious}
             onNext={handleNext}
-            hasPrev={false}
+            hasPrev={true}
             hasNext={true}
           />
         </>

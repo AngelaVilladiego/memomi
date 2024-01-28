@@ -85,7 +85,7 @@ export const GetUserFirstMemo = async (userId) => {
 };
 
 export const GetUserMemoIds = async (userId) => {
-  let url = new URL(`${g.BASE_URL + g.GET_USER_FIRST_MEMO}`);
+  let url = new URL(`${g.BASE_URL + g.GET_USER_MEMO_IDS}`);
   url.search = new URLSearchParams({ userId: userId });
   let res = fetch(url, {
     method: "GET",
@@ -104,13 +104,18 @@ export const GetUserMemoIds = async (userId) => {
 };
 
 export const GetMemo = async (memoId, userId) => {
+  let reqBody = JSON.stringify({
+    userId: userId,
+    memoId: memoId,
+  });
+
   let url = new URL(`${g.BASE_URL + g.GET_MEMO}`);
-  url.search = new URLSearchParams({ memoId: memoId, userId: userId });
   let res = fetch(url, {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    body: reqBody,
   })
     .then((r) => r.json())
     .then((r) => {

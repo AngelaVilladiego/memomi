@@ -25,10 +25,11 @@ def getUser():
 
     return user
 
-@app.route("/getMemo", methods=["GET"])
+@app.route("/getMemo", methods=["POST"])
 def getMemo():
-    memoId = request.args.get("memoId")
-    userId = request.args.get("userId")
+    reqData = request.json
+    memoId = reqData.get("memoId")
+    userId = reqData.get("userId")
 
     memo = h_getMemoById(memoId).to_dict()
 
@@ -37,8 +38,10 @@ def getMemo():
         links = memo["linksToMemos"]
         if len(links) == 0:
             links = h_addLinksToExistingMemos(userId, memoId)
+            memo = h_getMemoById(memoId).to_dict()
     except KeyError:
         links = h_addLinksToExistingMemos(userId, memoId)
+        memo = h_getMemoById(memoId).to_dict()
 
     try:
         suggs = memo["newMemoSuggestions"]
@@ -71,8 +74,10 @@ def getUserFirstMemo():
     links = []
     try:
         links = memo["linksToMemos"]
+        memo = h_getMemoById(memoId).to_dict()
     except KeyError:
         links = h_addLinksToExistingMemos("memoId", "userId")
+        memo = h_getMemoById(memoId).to_dict()
 
     try:
         suggs = memo["newMemoSuggestions"]
@@ -128,6 +133,7 @@ def getUserMemoIds():
     user = h_getUserById(userId)
 
     memoIds = user.get('memoIds')
+    print(memoIds)
 
     return memoIds
     
