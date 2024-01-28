@@ -8,9 +8,10 @@ import NaviBar from "../../components/NaviBar/NaviBar";
 import Logo from "../../components/NaviBar/Logo.png";
 import Memo from "../../components/Memo/Memo";
 import LoginButton from "../../components/LoginButton/LoginButton"
-import RightBinder from "../../components/Binder/Binder"
-import Memopad from "../../components/Memo/Memo"
-
+import RightBinder from "./rightBinder.png" 
+import MiddleBinder from"./middleBinder.png"
+import Memopad from "./MemoPad.png"
+import SummaryTable from "../../components/SummaryTable/SummaryTable"
 import SearchBar from "./Search barsearchbar.png"
 
 function Focus() {
