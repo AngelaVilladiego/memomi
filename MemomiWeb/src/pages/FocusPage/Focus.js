@@ -9,7 +9,7 @@ import Memo from "../../components/Memo/Memo";
 
 function Focus() {
   return (
-    <div className="height-svh">
+    <div className="h-svh flex flex-col items-center p-8">
       <Memo />
     </div>
     //     <div className="Focus">
