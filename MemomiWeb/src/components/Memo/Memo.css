@@ -48,3 +48,7 @@
   border-radius: 30px;
   border: 2px solid #5069b1;
 }
+
+.linkToMemo {
+  @apply text-memoblue-400 hover:cursor-pointer;
+}

@@ -6,52 +6,48 @@ import MemoFooter from "./MemoFooter";
 import Editable from "../Editable/Editable";
 import sanitizeHtml from "sanitize-html";
 import {
+  GetMemo,
   GetUserMemos,
   GetUserFirstMemo,
   GetUserMemoIds,
 } from "../../services/endpoints";
 import { GLOBALS } from "../../globals";
 import { formatDate } from "../../services/helpers";
-import { tagBody } from "../../services/memoBodyTagger";
 
 const Memo = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [memoIds, setMemoIds] = useState([]);
-  const [memo, setMemo] = useState({});
-  const [canSave, setCanSave] = useState(false);
-  let lastSavedBody = "";
-
-  const removeTags = (tagged) => {
-    return sanitizeHtml(tagged, { allowedTags: [], allowedAttributes: {} });
-  };
+  const [state, setState] = useState({
+    isEditable: false,
+    isLoading: true,
+    memoIds: [],
+    memo: {},
+    canSave: false,
+    lastSavedBody: "",
+  });
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [memoIds, setMemoIds] = useState([]);
+  // const [memo, setMemo] = useState({});
+  // const [canSave, setCanSave] = useState(false);
+  // let lastSavedBody = "";
 
   useEffect(() => {
-    const requestPromise = GetUserFirstMemo(GLOBALS.TEST_USER_ID);
-    requestPromise.then((data) => {
-      console.log("got:", data);
-      setMemo(data);
-    });
-
-    const idsRequestPromise = GetUserMemoIds(GLOBALS.TEST_USER_ID);
-    idsRequestPromise.then((data) => {
-      console.log("got:", data);
-      setMemoIds(data);
+    console.log("useeffecting");
+    Promise.all([
+      GetUserFirstMemo(GLOBALS.TEST_USER_ID),
+      GetUserMemoIds(GLOBALS.TEST_USER_ID),
+    ]).then((values) => {
+      var memoData = values[0];
+      var memoIdsData = values[1];
+      setState({
+        ...state,
+        isLoading: false,
+        memoIds: memoIdsData,
+        memo: memoData,
+        canSave: false,
+        lastSavedBody: memoData.body,
+      });
     });
   }, []);
 
-  useEffect(() => {
-    if (memo && isLoading) {
-      setTimeout(() => {
-        lastSavedBody = memo["body"];
-        setIsLoading(false);
-      }, 1000);
-    }
-    setCanSave(memo["body"] != lastSavedBody);
-  }, [memo]);
-
-  useEffect(() => {
-    console.log("effect can save? ", canSave);
-  }, [canSave]);
   const handleSave = () => {
     console.log("saving");
   };
@@ -63,17 +59,41 @@ const Memo = () => {
   };
 
   const onSetContent = (e) => {
-    console.log("LETJAODIFJJ");
-    setMemo((prev) => {
-      let memo = { ...prev };
-      memo.body = e;
-      return memo;
+    setState({
+      ...state,
+      memo: {
+        ...state.memo,
+        body: e,
+      },
+    });
+  };
+
+  const onClickLink = (linkId) => {
+    setState({
+      ...state,
+      isLoading: true,
+    });
+    GetMemo(linkId).then((data) => {
+      if (data !== -4) {
+        setState({
+          ...state,
+          memo: data,
+          isLoading: false,
+        });
+      }
+    });
+  };
+
+  const handleEdit = () => {
+    setState({
+      ...state,
+      isEditable: true,
     });
   };
 
   return (
     <div className="flex flex-col myMemo mx-auto rounded-lg border-memoblue-400 border-2 h-full grow aspect-[5/7] font-sans py-2 px-6">
-      {isLoading ? (
+      {state.isLoading ? (
         <div className="p-8 flex flex-col gap-3 items-center max-w-6/12 h-screen text-gray-800">
           <div className="h-full flex flex-col justify-center items-center">
             <span className="text-gray-800 text-lg pb-3 font-fancy">
@@ -103,26 +123,27 @@ const Memo = () => {
       ) : (
         <>
           <MemoHeader
-            onEdit={() => console.log("clickedEdit")}
+            onEdit={handleEdit}
             onDelete={() => console.log("clickedDelete")}
             iconName="save"
             onIconClick={handleSave}
-            canSave={canSave}
+            canSave={state.canSave}
           />
           <div className="pt-4 w-5/12 ms-auto self-end border-b-2 border-memoblue-400 font-sans font-semibold text-xs text-memoblue-400">
             <span>Date</span>
             <span className="font-handwriting text-xl align-baseline text-memoneutral-800 ps-8">
-              {formatDate(new Date(memo["dateCreated"]))}
+              {formatDate(new Date(state.memo["dateCreated"]))}
             </span>
           </div>
           <div className="text-memoblue-400 font-black font-sans text-2xl w-6/12">
-            <p className="text-wrap line-clamp-2">{memo["title"]}</p>
+            <p className="text-wrap line-clamp-2">{state.memo["title"]}</p>
           </div>
           <div className="py-4 text-xs"></div>
           <TechretaryButton />
           <Editable
+            isEditable={state.isEditable}
             className="bg-none font-handwriting text-sm text-memoneutral-800 overflow-y-scroll grow my-4"
-            content={memo["body"]}
+            content={state.memo["body"]}
             onSetContent={(e) => onSetContent(e)}
           />
           <MemoFooter
