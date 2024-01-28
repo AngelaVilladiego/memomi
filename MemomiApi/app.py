@@ -49,8 +49,7 @@ def getUserFirstMemo():
 
     newBody = tagBody(memo["body"], memo["linksToMemos"], memo["newMemoSuggestions"])
     memo["body"] = str(newBody)
-    print(memo)
-    
+    print("\n\n")
     return memo
 
 @app.route("/addLinksToExistingMemos", methods=["POST"])
