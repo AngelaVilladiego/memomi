@@ -13,7 +13,7 @@ root.render(
     domain="dev-cz8wroj02ik53vzv.us.auth0.com"
     clientId="2JtJXSwm3Z1xmi5JUua0tZpY7MBmFzU6"
     authorizationParams={{
-      redirect_uri: window.Location.origin222
+      redirect_uri: window.Location.origin
     }}
   >
   <Focus />
