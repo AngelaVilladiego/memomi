@@ -18,6 +18,22 @@ module.exports = {
           100: "#f2ecdc",
         },
       },
+      spacing: {
+        '2.5':'2.5px',
+        '3': '3px',
+        '47':'47px',
+        '275':'275px',
+        '175':'175px',
+        '375':'375px',
+        '475':'475px',
+        '500':'500px',
+        '20':'20px',
+        '80':'80px',
+        '5/12':'41.67%',
+        '200':'200px',
+        '850':'850px',
+        '1000':'80rem',
+      }
     },
     fontFamily: {
       sans: ["Poppins", "sans-serif"],
@@ -25,7 +41,7 @@ module.exports = {
       handwriting: ["Poor Story", "system-ui"],
     },
     backgroundImage:{
-      'default': "src('./public/Background.png')"
+      'default':"url('/public/Background.png')"
     },
   },
   plugins: [require("@tailwindcss/line-clamp")],
