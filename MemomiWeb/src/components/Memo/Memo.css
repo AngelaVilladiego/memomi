@@ -26,3 +26,25 @@
   z-index: -1;
   @apply bg-memoblue-50;
 }
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+.myMemo {
+  scrollbar-width: auto;
+  scrollbar-color: #6f95db #dee8f8;
+}
+
+/* Chrome, Edge, and Safari */
+.myMemo::-webkit-scrollbar {
+  width: 16px;
+}
+
+.myMemo::-webkit-scrollbar-track {
+  background: #dee8f8;
+}
+
+.myMemo::-webkit-scrollbar-thumb {
+  background-color: #6f95db;
+  border-radius: 30px;
+  border: 2px solid #5069b1;
+}
