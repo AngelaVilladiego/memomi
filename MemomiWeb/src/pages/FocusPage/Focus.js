@@ -7,12 +7,10 @@ import Contact from "../Contact";
 import NaviBar from "../../components/NaviBar/NaviBar";
 import Logo from "../../components/NaviBar/Logo.png";
 import Memo from "../../components/Memo/Memo";
-import RightBinder from "./rightBinder.png";
-import MiddleBinder from "./middleBinder.png";
-import Memopad from "./MemoPad.png"
-import Pile from "./pile.png"
-import TagDisplay from "../../components/TagDisplay";
-import SummaryTable from "../../components/SummaryTable/SummaryTable"
+import LoginButton from "../../components/LoginButton/LoginButton"
+import RightBinder from "../../components/Binder/Binder"
+import Memopad from "../../components/Memo/Memo"
+
 import SearchBar from "./Search barsearchbar.png"
 
 function Focus() {
