@@ -157,7 +157,7 @@ const Memo = () => {
   };
 
   return (
-    <div className="flex flex-col myMemo mx-auto rounded-lg border-memoblue-400 border-2 h-full grow aspect-[5/7] font-sans py-2 px-6">
+    <div className="flex flex-col myMemo max-h-600 w-400 rounded-lg border-memoblue-400 border-2 font-sans py-2 px-6">
       {state.isLoading ? (
         <div className="p-8 flex flex-col gap-3 items-center max-w-6/12 h-screen text-gray-800">
           <div className="h-full flex flex-col justify-center items-center">
@@ -195,7 +195,7 @@ const Memo = () => {
             onIconClick={handleSave}
             canSave={state.canSave}
           />
-          <div className="pt-4 w-5/12 ms-auto self-end border-b-2 border-memoblue-400 font-sans font-semibold text-xs text-memoblue-400">
+          <div className="pt-4 w-7/12 ms-auto self-end border-b-2 border-memoblue-400 font-sans font-semibold text-xs text-memoblue-400">
             <span>Date</span>
             <span className="font-handwriting text-xl align-baseline text-memoneutral-800 ps-8">
               {formatDate(new Date(state.memo["dateCreated"]))}

@@ -1,4 +1,4 @@
-const { scryRenderedComponentsWithType } = require('react-dom/test-utils');
+const { scryRenderedComponentsWithType } = require("react-dom/test-utils");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -20,36 +20,38 @@ module.exports = {
         },
       },
       spacing: {
-        '2.5':'2.5px',
-        '3': '3px',
-        '5':'5px',
-        '9': '9px',
-        '47':'47px',
-        '10':'10px',
-        '110':'110px',
-        '100':'100px',
-        '275':'275px',
-        
-        '252':'252px',
-        '175':'175px',
-        '375':'375px',
-        '475':'475px',
-        '500':'500px',
-        '20':'20px',
-        '80':'80px',
-        '5/12':'41.67%',
-        '200':'200px',
-        '850':'850px',
-        '1000':'80rem',
-      }
+        "2.5": "2.5px",
+        "3": "3px",
+        "5": "5px",
+        "9": "9px",
+        "47": "47px",
+        "10": "10px",
+        "110": "110px",
+        "100": "100px",
+        "275": "275px",
+
+        "252": "252px",
+        "175": "175px",
+        "375": "375px",
+        "475": "475px",
+        "500": "500px",
+        "600": "600px",
+        "750": "750px",
+        "20": "20px",
+        "80": "80px",
+        "5/12": "41.67%",
+        "200": "200px",
+        "850": "850px",
+        "1000": "80rem",
+      },
     },
     fontFamily: {
       sans: ["Poppins", "sans-serif"],
       fancy: ["Rock Salt", "cursive"],
       handwriting: ["Poor Story", "system-ui"],
     },
-    backgroundImage:{
-      'default':"url('/public/Background.png')"
+    backgroundImage: {
+      default: "url('/public/Background.png')",
     },
   },
   plugins: [require("@tailwindcss/line-clamp")],
