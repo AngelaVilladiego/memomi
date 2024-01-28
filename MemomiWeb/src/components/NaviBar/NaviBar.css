@@ -5,30 +5,31 @@
 }
 
 .NaviBar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
 .NaviBar-links {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
 }
 
 .NaviBar-link {
-  margin: 0;
-  text-decoration: none;
-  color: #5069b1;
-  transition: color 0.3s ease;
+    margin-right: 20px;
+    text-decoration: none;
+    font: 'Poppins';
+    color: #5069B1;
+    transition: color 0.3s ease;
 }
 
 .NaviBar-link:hover {
-    color: #192c65;
+  color: #192c65;
 }
 
-.Logo{
-    size: 40vmin;
+.Logo {
+  size: 40vmin;
 }

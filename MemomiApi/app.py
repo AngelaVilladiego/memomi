@@ -5,6 +5,8 @@ from ApiHelpers import *
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from flask_cors import CORS
+from BodyTagger import tagBody
 
 # Use a service account.
 if not firebase_admin._apps:
@@ -14,10 +16,41 @@ if not firebase_admin._apps:
 db = firestore.client()
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+@app.route("/getUser", methods=["GET"])
+def getUser():
+    userId = request.args.get('userId')
+    user = h_getUserById(userId)
+
+    return user
+
+@app.route("/getMemo", methods=["GET"])
+def getMemo():
+    memoId = request.args.get("memoId")
+    memo = h_getMemoById(memoId)
+
+
+    return memo
+
+@app.route("/getUserFirstMemo", methods=["GET"])
+def getUserFirstMemo():
+    userId = request.args.get("userId")
+    user = h_getUserById(userId)
+
+    memoIds = user.get('memoIds')
+
+
+    if not memoIds:
+        return {}
+    
+    memoId = memoIds[0]
+    memo = h_getMemoById(memoId).to_dict()
+
+    newBody = tagBody(memo["body"], memo["linksToMemos"], memo["newMemoSuggestions"])
+    memo["body"] = str(newBody)
+    print("\n\n")
+    return memo
 
 @app.route("/addLinksToExistingMemos", methods=["POST"])
 def addLinksToExistingMemos():
@@ -62,6 +95,27 @@ def getUsers():
         response['users'].append(userDict)
 
     return response
+
+@app.route("/getUserMemos", methods=["GET"])
+def getUserMemos():
+    userId = request.args.get("userId")
+    user = h_getUserById(userId)
+
+    memos = []
+    for memoId in user.get('memoIds'):
+        memos.append(h_getMemoById(memoId).to_dict())
+
+    return memos
+
+@app.route("/getUserMemoIds", methods=["GET"])
+def getUserMemoIds():
+    userId = request.args.get("userId")
+    user = h_getUserById(userId)
+
+    memoIds = user.get('memoIds')
+
+    return memoIds
+    
 
 @app.route("/getNewMemoSuggestions", methods=["POST"])
 def getNewMemoSuggestions():
