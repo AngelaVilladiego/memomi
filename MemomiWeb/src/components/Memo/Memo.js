@@ -18,7 +18,7 @@ const Memo = () => {
   const [memoIds, setMemoIds] = useState([]);
   const [memo, setMemo] = useState({});
   const [canSave, setCanSave] = useState(false);
-  let lastSavedBody = demoText;
+  let lastSavedBody = "";
 
   const removeTags = (tagged) => {
     return sanitizeHtml(tagged, { allowedTags: [], allowedAttributes: {} });
@@ -40,10 +40,14 @@ const Memo = () => {
 
   useEffect(() => {
     console.log("efffect on memoy");
+    console.log(memo);
     if (memo && isLoading) {
-      setIsLoading(false);
+      setTimeout(() => {
+        lastSavedBody = memo["body"];
+        setIsLoading(false);
+      }, 1000);
     }
-    setCanSave(removeTags(memo["body"]) != lastSavedBody);
+    setCanSave(memo["body"] != lastSavedBody);
   }, [memo]);
 
   useEffect(() => {
@@ -60,7 +64,12 @@ const Memo = () => {
   };
 
   const onSetContent = (e) => {
-    setMemo({ ...memo, body: removeTags(e) });
+    console.log("LETJAODIFJJ");
+    setMemo((prev) => {
+      let memo = { ...prev };
+      memo.body = removeTags(e);
+      return memo;
+    });
   };
 
   return (
