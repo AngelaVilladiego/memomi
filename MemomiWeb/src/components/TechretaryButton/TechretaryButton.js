@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
-const TechretaryButton = () => {
+const TechretaryButton = ({ onSuggestTags, onSuggestMemos }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const hoverStyles = "";
@@ -19,7 +19,11 @@ const TechretaryButton = () => {
   };
 
   const onSelect = (option) => {
-    console.log(option);
+    if (option == 0) {
+      onSuggestTags();
+    } else {
+      onSuggestMemos();
+    }
   };
 
   return (
@@ -40,21 +44,23 @@ const TechretaryButton = () => {
       </button>
       {isExpanded ? (
         <div className="absolute ps-4">
-          <span className="opacity-50 text-xs">Suggest some</span>
-          <ul className="text-sm border-memoblue-400 border-[1px] rounded-lg overflow-clip">
+          <ul className="text-sm border-memoblue-400 border-[1px] rounded-lg overflow-clip bg-memoyellow-50">
+            <span className="text-xs ps-2 text-neutral-500">
+              Suggest some...
+            </span>
             <li
               onClick={() => {
                 onSelect(0);
               }}
-              className="px-5 py-1 border-b-[1px] border-gray-200 group bg-memoyellow-50 hover:cursor-pointer hover:bg-memoyellow-100"
+              className="px-5 py-2 border-b-[1px] border-t-[1px] border-gray-200 group bg-memoyellow-50 hover:cursor-pointer hover:bg-memoyellow-100"
             >
               {techretaryOptions[0]}
             </li>
             <li
               onClick={() => {
-                onSelect(0);
+                onSelect(1);
               }}
-              className="px-5 py-1 hover:cursor-pointer bg-memoyellow-50 hover:bg-memoyellow-100"
+              className="px-5 py-2 hover:cursor-pointer bg-memoyellow-50 hover:bg-memoyellow-100"
             >
               {techretaryOptions[1]}
             </li>

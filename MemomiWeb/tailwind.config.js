@@ -16,6 +16,7 @@ module.exports = {
         memoyellow: {
           50: "#FBF4E4",
           100: "#f2ecdc",
+          300: "#FBD491",
         },
       },
       spacing: {

@@ -1,8 +1,12 @@
 import React from "react";
 
-const TextButton = ({ onClickButton, textContent }) => {
+const TextButton = ({ onClickButton, textContent, className, disabled }) => {
   return (
-    <button className="font-sans font-semibold text-xs" onClick={onClickButton}>
+    <button
+      disabled={disabled}
+      className={`font-sans font-semibold text-xs ${className}`}
+      onClick={onClickButton}
+    >
       {textContent}
     </button>
   );

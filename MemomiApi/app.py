@@ -28,10 +28,28 @@ def getUser():
 @app.route("/getMemo", methods=["GET"])
 def getMemo():
     memoId = request.args.get("memoId")
-    memo = h_getMemoById(memoId)
+    userId = request.args.get("userId")
 
+    memo = h_getMemoById(memoId).to_dict()
 
+    links = []
+    try:
+        links = memo["linksToMemos"]
+        if len(links) == 0:
+            links = h_addLinksToExistingMemos(userId, memoId)
+    except KeyError:
+        links = h_addLinksToExistingMemos(userId, memoId)
+
+    try:
+        suggs = memo["newMemoSuggestions"]
+    except KeyError:
+        suggs = []
+
+    newBody = tagBody(memo["body"], links, suggs)
+    memo["body"] = str(newBody)
+    memo["id"] = memoId
     return memo
+
 
 @app.route("/getUserFirstMemo", methods=["GET"])
 def getUserFirstMemo():
@@ -45,11 +63,24 @@ def getUserFirstMemo():
         return {}
     
     memoId = memoIds[0]
-    memo = h_getMemoById(memoId).to_dict()
+    memo = h_getMemoById(memoId)
+    memoId = memo.id
+    memo = memo.to_dict()
 
-    newBody = tagBody(memo["body"], memo["linksToMemos"], memo["newMemoSuggestions"])
+    links = []
+    try:
+        links = memo["linksToMemos"]
+    except KeyError:
+        links = h_addLinksToExistingMemos("memoId", "userId")
+
+    try:
+        suggs = memo["newMemoSuggestions"]
+    except KeyError:
+        suggs = []
+
+    newBody = tagBody(memo["body"], links, suggs)
     memo["body"] = str(newBody)
-    print("\n\n")
+    memo["id"] = memoId
     return memo
 
 @app.route("/addLinksToExistingMemos", methods=["POST"])
@@ -57,25 +88,8 @@ def addLinksToExistingMemos():
     reqData = request.json
     currMemoId = reqData.get('memoId')
     userId = reqData.get('userId')
-    otherMemos = []
-    memoBody = h_getMemoById(currMemoId).get('body')
-
-    linksToNotes = []
-
-    user = h_getUserById(userId)
-    for memoId in user.get('memoIds'):
-        if memoId != currMemoId:
-            otherMemos.append({'id':memoId, 'title': (h_getMemoById(memoId).get('title'))})
-
-    for memo in otherMemos:
-        print(f"finding index for {memo['title']}")
-        linkIndexes = findIndexesOfQuery(memo['title'], memoBody)
-        print("received: ", linkIndexes)
-        if linkIndexes:
-            for i in linkIndexes:
-                linksToNotes.append({'linkIndexes':i, 'linkedMemoId':memo['id']})
-
-    h_updateMemo(currMemoId, "linksToMemos", linksToNotes)
+    
+    linksToNotes = h_addLinksToExistingMemos(userId, currMemoId)
 
 
     return linksToNotes
@@ -124,12 +138,18 @@ def getNewMemoSuggestions():
     memo = h_getMemoById(memoId)
     body = memo.get("body")
     memoSuggestionsList = getMemoSuggestionsList(body)
-    linksToMemos = memo.get("linksToMemos")
+    try:
+        linksToMemos = memo.get("linksToMemos")
+    except KeyError:
+        linksToMemos = []
+
     cleanMemoSuggestionsList = removeExistingLinks(memoSuggestionsList, linksToMemos)
     #check if list contains indexes in range of already existing notes, if so remove it
     h_updateMemo(memoId, "newMemoSuggestions", cleanMemoSuggestionsList)
 
-    return memoSuggestionsList
+    taggedBody = tagBody(body, linksToMemos, memoSuggestionsList)
+
+    return {"taggedBody": taggedBody}
 
 @app.route("/realizeSuggestion", methods=["POST"])
 def realizeSuggestion():
