@@ -5,6 +5,8 @@ from ApiHelpers import *
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from flask_cors import CORS
+from BodyTagger import tagBody
 
 # Use a service account.
 if not firebase_admin._apps:
@@ -14,35 +16,86 @@ if not firebase_admin._apps:
 db = firestore.client()
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+@app.route("/getUser", methods=["GET"])
+def getUser():
+    userId = request.args.get('userId')
+    user = h_getUserById(userId)
+
+    return user
+
+@app.route("/getMemo", methods=["POST"])
+def getMemo():
+    reqData = request.json
+    memoId = reqData.get("memoId")
+    userId = reqData.get("userId")
+
+    memo = h_getMemoById(memoId).to_dict()
+
+    links = []
+    try:
+        links = memo["linksToMemos"]
+        if len(links) == 0:
+            links = h_addLinksToExistingMemos(userId, memoId)
+            memo = h_getMemoById(memoId).to_dict()
+    except KeyError:
+        links = h_addLinksToExistingMemos(userId, memoId)
+        memo = h_getMemoById(memoId).to_dict()
+
+    try:
+        suggs = memo["newMemoSuggestions"]
+    except KeyError:
+        suggs = []
+
+    newBody = tagBody(memo["body"], links, suggs)
+    memo["body"] = str(newBody)
+    memo["id"] = memoId
+    print(memo)
+    return memo
+
+
+@app.route("/getUserFirstMemo", methods=["GET"])
+def getUserFirstMemo():
+    userId = request.args.get("userId")
+    user = h_getUserById(userId)
+
+    memoIds = user.get('memoIds')
+
+
+    if not memoIds:
+        return {}
+    
+    memoId = memoIds[0]
+    memo = h_getMemoById(memoId)
+    memoId = memo.id
+    memo = memo.to_dict()
+
+    links = []
+    try:
+        links = memo["linksToMemos"]
+        memo = h_getMemoById(memoId).to_dict()
+    except KeyError:
+        links = h_addLinksToExistingMemos("memoId", "userId")
+        memo = h_getMemoById(memoId).to_dict()
+
+    try:
+        suggs = memo["newMemoSuggestions"]
+    except KeyError:
+        suggs = []
+
+    newBody = tagBody(memo["body"], links, suggs)
+    memo["body"] = str(newBody)
+    memo["id"] = memoId
+    return memo
 
 @app.route("/addLinksToExistingMemos", methods=["POST"])
 def addLinksToExistingMemos():
     reqData = request.json
     currMemoId = reqData.get('memoId')
     userId = reqData.get('userId')
-    otherMemos = []
-    memoBody = h_getMemoById(currMemoId).get('body')
-
-    linksToNotes = []
-
-    user = h_getUserById(userId)
-    for memoId in user.get('memoIds'):
-        if memoId != currMemoId:
-            otherMemos.append({'id':memoId, 'title': (h_getMemoById(memoId).get('title'))})
-
-    for memo in otherMemos:
-        print(f"finding index for {memo['title']}")
-        linkIndexes = findIndexesOfQuery(memo['title'], memoBody)
-        print("received: ", linkIndexes)
-        if linkIndexes:
-            for i in linkIndexes:
-                linksToNotes.append({'linkIndexes':i, 'linkedMemoId':memo['id']})
-
-    h_updateMemo(currMemoId, "linksToMemos", linksToNotes)
+    
+    linksToNotes = h_addLinksToExistingMemos(userId, currMemoId)
 
 
     return linksToNotes
@@ -63,6 +116,28 @@ def getUsers():
 
     return response
 
+@app.route("/getUserMemos", methods=["GET"])
+def getUserMemos():
+    userId = request.args.get("userId")
+    user = h_getUserById(userId)
+
+    memos = []
+    for memoId in user.get('memoIds'):
+        memos.append(h_getMemoById(memoId).to_dict())
+
+    return memos
+
+@app.route("/getUserMemoIds", methods=["GET"])
+def getUserMemoIds():
+    userId = request.args.get("userId")
+    user = h_getUserById(userId)
+
+    memoIds = user.get('memoIds')
+    print(memoIds)
+
+    return memoIds
+    
+
 @app.route("/getNewMemoSuggestions", methods=["POST"])
 def getNewMemoSuggestions():
     reqData = request.json
@@ -70,12 +145,18 @@ def getNewMemoSuggestions():
     memo = h_getMemoById(memoId)
     body = memo.get("body")
     memoSuggestionsList = getMemoSuggestionsList(body)
-    linksToMemos = memo.get("linksToMemos")
+    try:
+        linksToMemos = memo.get("linksToMemos")
+    except KeyError:
+        linksToMemos = []
+
     cleanMemoSuggestionsList = removeExistingLinks(memoSuggestionsList, linksToMemos)
     #check if list contains indexes in range of already existing notes, if so remove it
     h_updateMemo(memoId, "newMemoSuggestions", cleanMemoSuggestionsList)
 
-    return memoSuggestionsList
+    taggedBody = tagBody(body, linksToMemos, memoSuggestionsList)
+
+    return {"taggedBody": taggedBody}
 
 @app.route("/realizeSuggestion", methods=["POST"])
 def realizeSuggestion():
@@ -106,7 +187,9 @@ def realizeSuggestion():
     h_updateMemo(sourceMemoId, "linksToMemos", linksToMemos)
     h_updateMemo(sourceMemoId, "newMemoSuggestions", cleanedSuggestions)
 
-    return {"newMemoId":newMemoId, "newMemoSuggestions":cleanedSuggestions, "linksToMemos": linksToMemos}
+    taggedBody = tagBody(sourceMemo.get("body"), linksToMemos, cleanedSuggestions)
+    
+    return {"taggedBody": taggedBody, "memoId": newMemoId, "title": realizeTitle}
 
     # update memoId to add indexes and the id of the newly created memo
     # return modified suggestions list and modified links list

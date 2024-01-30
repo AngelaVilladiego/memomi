@@ -1,0 +1,6 @@
+.big-background {
+  background-image: url("Background.webp");
+  background-repeat: no-repeat;
+  background-position-y: top;
+  background-size: cover;
+}

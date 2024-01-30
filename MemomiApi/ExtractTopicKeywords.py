@@ -25,7 +25,7 @@ def removeExistingLinks(suggestions, linksToMemos):
 
             dodgeRange = range(lStartIdx, lEndIdx + 1)
 
-            if sStartIdx in dodgeRange or sEndIdx in dodgeRange:
+            if sStartIdx >= lStartIdx and sStartIdx <= lEndIdx or sEndIdx >= lStartIdx and sEndIdx <= lEndIdx:
                 isValid = False
                 break
 
@@ -39,14 +39,14 @@ def getSuggestionIndexes(text, topics):
     newMemoSuggestions = []
     topics = set(topics)
     for topic in topics:
-        startIdxs = [m.start() for m in re.finditer(topic.lower(), text.lower())]
-        startIdxs = startIdxs
-        for startIdx in startIdxs:
-            suggestion = {"suggestedTitle": topic}
-            endIdx = startIdx + len(topic)
-            suggestion["suggestionIndexes"] = {"startIdx": startIdx, "endIdx": endIdx}
-            newMemoSuggestions.append(suggestion)
-
+        startIdx = text.lower().find(topic.lower())
+        if startIdx == -1:
+            continue
+        suggestion = {"suggestedTitle": topic}
+        endIdx = startIdx + len(topic)
+        suggestion["suggestionIndexes"] = {"startIdx": startIdx, "endIdx": endIdx}
+        newMemoSuggestions.append(suggestion)
+    
     return newMemoSuggestions
 
 

@@ -1,0 +1,22 @@
+.top tr td:first-child, .top th:first-child{
+    border-color: #5069B1;
+    border-right-width:2px;
+    border-top-width:2px;
+    border-bottom-width:2px;
+    border-left:0;
+    width:66.66%;
+}
+
+.top tr td:last-child, .top th:last-child{
+    border-color: #5069B1;
+    border-left-width:2px;
+    border-top-width:2px;
+    border-bottom-width:2px;
+    border-right:0;
+    width:33.33%;
+}
+
+.top tr td{
+    padding: 2px;
+    padding-left:10px;
+}
