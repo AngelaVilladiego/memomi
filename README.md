@@ -7,6 +7,12 @@ Memomi brings back the personality, color, and connection opportunities of the t
 ## About
 Memomi is a project conceived, designed, and built over 36 hours for UofTHacks 11. The adept utilization of Cohere's NLP tools in developing Memomi's smart AI assistant, "Techretary," secured a 3rd-place position in Cohere's prize category among more than 400 participants.
 
+![gallery](https://github.com/user-attachments/assets/9d405060-a2cc-4d3c-8fc7-37d07116bdc5)
+> A memo page implemented with React.js with highlighted suggestions generated from Techretary, the Cohere-supported AI assistant for Memomi
+
+![original](https://github.com/user-attachments/assets/698fee08-2356-4744-ae00-9ab484898025)
+> A page from the full Figma prototype
+
 <p>You can watch our submission video, see some images, read more about our inspiration and challenges with the product, and show your appreciation for Memomi at <a href="https://devpost.com/software/memomi" target="_blank">our devpost here!</a></p>
 
 ## Authors
